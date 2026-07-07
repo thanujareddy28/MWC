@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+  --color-mwc-sage: #8AA88F;
+  --color-mwc-forest: #3D5245;
+  --color-mwc-sand: #F5F1E6;
+  --color-mwc-coral: #E8A488;
+  --color-mwc-teal: #6B9080;
+}

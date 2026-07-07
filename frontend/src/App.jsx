@@ -1,25 +1,24 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { Routes, Route } from 'react-router-dom'
+import Welcome from './pages/Welcome.jsx'
+import Signup from './pages/Signup.jsx'
+import Login from './pages/Login.jsx'
+
+function Dashboard() {
+  return (
+    <div className="min-h-screen bg-mwc-sand flex items-center justify-center">
+      <h1 className="text-2xl font-medium text-mwc-forest">Dashboard coming soon 🌿</h1>
+    </div>
+  )
+}
 
 function App() {
-  const [message, setMessage] = useState('Loading...')
-
-  useEffect(() => {
-    axios.get('http://127.0.0.1:8000/')
-      .then((response) => {
-        setMessage(response.data.message)
-      })
-      .catch((error) => {
-        setMessage('Could not connect to backend 😢')
-        console.error(error)
-      })
-  }, [])
-
   return (
-    <div style={{ padding: '40px', fontFamily: 'sans-serif', textAlign: 'center' }}>
-      <h1>Mental Wellness Companion</h1>
-      <p>{message}</p>
-    </div>
+    <Routes>
+      <Route path="/" element={<Welcome />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
   )
 }
 
