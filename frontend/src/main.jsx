@@ -13,6 +13,12 @@ if (!publishableKey) {
   )
 }
 
+if (!publishableKey.startsWith('pk_')) {
+  throw new Error(
+    'Invalid VITE_CLERK_PUBLISHABLE_KEY: it must be a Clerk publishable key starting with "pk_". Replace the placeholder in frontend/.env.local with your real key from the Clerk dashboard, then restart the dev server.',
+  )
+}
+
 function ClerkWithRouter({ children }) {
   const navigate = useNavigate()
 

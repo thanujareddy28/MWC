@@ -1,16 +1,50 @@
-# React + Vite
+# MWC Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React + Vite frontend for Mental Wellness Companion (MWC). Authentication is
+handled by Clerk (`@clerk/react`). The API is FastAPI, run from the sibling
+`backend` folder.
 
-Currently, two official plugins are available:
+## Running
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```
+npm install
+npm run dev
+```
 
-## React Compiler
+The dev server runs on **port 5180** (pinned with `strictPort` in
+`vite.config.js`, so it fails loudly instead of silently moving to another port).
+Open http://localhost:5180/.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Configuration
 
-## Expanding the Oxlint configuration
+Create `frontend/.env.local` (git-ignored) with these two variables. See
+`frontend/.env.example` for the template.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- `VITE_CLERK_PUBLISHABLE_KEY` — your Clerk publishable key. Must be a real key
+  starting with `pk_`. The app throws on startup if this is missing or still
+  contains placeholder text, so paste the actual value from the Clerk dashboard.
+- `VITE_API_URL` — base URL of the FastAPI backend, e.g. `http://localhost:8001`.
+  If unset, the code falls back to `http://localhost:8000`.
+
+## Never put secret keys in the frontend
+
+Only `VITE_`-prefixed variables are exposed to the browser bundle, and those
+must be public values. A Clerk **publishable** key (`pk_...`) is designed to be
+public. Never add any of the following to this folder, to `frontend/.env.local`,
+or to any file under `src/`:
+
+- Clerk **secret** key (`sk_...`)
+- Clerk webhook signing secret
+- Supabase service-role or secret key
+- Any other server-side secret
+
+Those belong in `backend/.env`, which is git-ignored. If a secret ever reaches
+the frontend, treat it as compromised and rotate it.
+
+## Other scripts
+
+```
+npm run build     # production build to dist/
+npm run lint      # oxlint
+npm run preview   # serve the production build
+```
